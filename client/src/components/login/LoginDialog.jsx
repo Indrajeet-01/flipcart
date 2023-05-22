@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Dialog, DialogContent, TextField, Box, Button, Typography, styled } from '@mui/material'
 const Component = styled(DialogContent)`
-    height: 70vh;
+    height: 80vh;
     width: 90vh;
     padding: 0;
     padding-top: 0;
@@ -62,7 +62,7 @@ const Error = styled(Typography)`
 const Image = styled(Box)`
     background: #2874f0 url(https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/login_img_c4a81e.png) center 85% no-repeat;
     width: 40%;
-    height: 100%;
+    height: 85%;
     padding: 45px 35px;
     & > p, & > h5 {
         color: #FFFFFF;
@@ -118,7 +118,7 @@ const LoginDialog = ({open, setOpen}) => {
     }
     return(
         <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { maxWidth: 'unset' } }}>
-            <Component>
+            <Component >
                 <Box style={{display: 'flex', height: '100%'}}>
                     <Image>
                     <Typography variant="h5">{account.heading}</Typography>
