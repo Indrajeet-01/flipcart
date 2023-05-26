@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
 import { Dialog, DialogContent, TextField, Box, Button, Typography, styled } from '@mui/material'
+
+import { authenticateSignup } from '../../service/api';
+
 const Component = styled(DialogContent)`
     height: 80vh;
     width: 90vh;
@@ -14,6 +17,7 @@ const LoginButton = styled(Button)`
     color: #fff;
     height: 48px;
     border-radius: 2px;
+    
 `;
 
 const RequestOTP = styled(Button)`
@@ -98,23 +102,39 @@ const accountInitialValues = {
 
 
 
-const LoginDialog = ({open, setOpen}) => {
+const LoginDialog = ({open, setOpen, setAccount}) => {
     const [ login, setLogin ] = useState(loginInitialValues);
     const [ signup, setSignup ] = useState(signupInitialValues);
+    const [account, toggleAccount] = useState(accountInitialValues.login)
     const [ error, showError] = useState(false);
-  
-    const onInputChange = (e) => {
-        setSignup({ ...signup, [e.target.name]: e.target.value });
+
+    useEffect(() => {
+        showError(false);
+    }, [login])
+
+
+    const onValueChange = (e) => {
+        setLogin({ ...login, [e.target.name]: e.target.value });
     }
 
-
-    const [account, toggleAccount] = useState(accountInitialValues.login)
-    const handleClose = () => {
-        setOpen(false)
+    const onInputChange = (e) => {
+        setSignup({ ...signup, [e.target.name]: e.target.value });
+        //console.log(setSignup)
     }
 
     const toggleSignup = () => {
         toggleAccount(accountInitialValues.signup);
+    }
+
+    const signupUser = async () => {
+        let response = await authenticateSignup(signup);
+        if(!response) return;
+        handleClose();
+        setAccount(signup.username);
+    }
+    const handleClose = () => {
+        setOpen(false);
+        toggleAccount(accountInitialValues.login);
     }
     return(
         <Dialog open={open} onClose={handleClose} PaperProps={{ sx: { maxWidth: 'unset' } }}>
@@ -139,9 +159,9 @@ const LoginDialog = ({open, setOpen}) => {
                             <TextField variant="standard" onChange={(e) => onInputChange(e)}  name='lastname' label='Enter Lastname' />
                             <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label='Enter Username' />
                             <TextField variant="standard" onChange={(e) => onInputChange(e)} name='email' label='Enter Email' />
-                            <TextField variant="standard"  onChange={(e) => onInputChange(e)}name='password' label='Enter Password' />
-                            <TextField variant="standard"  onChange={(e) => onInputChange(e)}name='phone' label='Enter Phone' />
-                            <LoginButton  >Continue</LoginButton>
+                            <TextField variant="standard"  onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
+                            <TextField variant="standard"  onChange={(e) => onInputChange(e)} name='phone' label='Enter Phone' />
+                            <LoginButton onClick={() => signupUser} >Continue</LoginButton>
                     </Wrapper>
                     }
                 </Box>
