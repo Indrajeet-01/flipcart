@@ -1,6 +1,5 @@
 import { Box, Button, Typography, styled,Badge } from "@mui/material"
 import { ShoppingCart } from '@mui/icons-material'
-import { Link } from 'react-router-dom';
 
 import LoginDialog from "../login/LoginDialog";
 import { useContext, useState } from "react";
@@ -68,7 +67,7 @@ const CustomButtons = () => {
                 </Badge>
                 <Typography style={{ marginLeft: 10 }}>Cart</Typography>
             </Box>
-            <LoginDialog open={open} setOpen={setOpen} />
+            <LoginDialog open={open} setOpen={setOpen} setAccount={setAccount} />
         </Wrapper>
     )
 }
