@@ -1,7 +1,10 @@
-import {AppBar, Toolbar,styled,Box, Typography} from "@mui/material"
+import {AppBar, Toolbar, IconButton, Drawer, List,styled,Box, Typography} from "@mui/material"
 import Search from "./Search";
 import { Link } from 'react-router-dom';
 import CustomButtons from "./CustomButtons";
+import { Menu } from '@mui/icons-material';
+import { useState } from "react";
+
 
 const StyledHeader = styled(AppBar)`
     background: #2874f0;
@@ -23,7 +26,12 @@ const PlusImage = styled('img')({
     height: 10,
     marginLeft: 4
 })
-
+const MenuButton = styled(IconButton)(({ theme }) => ({
+    display: 'none',
+    [theme.breakpoints.down('sm')]: {
+        display: 'block'
+    }
+}));
 const CustomButtonWrapper = styled('span')(({ theme }) => ({ 
     margin: '0 5% 0 auto', 
     [theme.breakpoints.down('sm')]: {
@@ -35,10 +43,38 @@ const Header = () => {
     const logoURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png'
     const subURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/plus_aef861.png';
 
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
+    const list = () => (
+        <Box style={{ width: 250 }} onClick={handleClose}>
+            <List>
+                <listItem button>
+                    <CustomButtons />
+                </listItem>
+            </List>
+        </Box>
+    );
+
 
     return (
         <StyledHeader>
             <Toolbar style={{ minHeight: 55 }}>
+            <MenuButton
+                color="inherit"
+                onClick={handleOpen}>
+                <Menu />
+            </MenuButton>
+            <Drawer open={open} onClose={handleClose}>
+                    {list()}
+            </Drawer>
                 <Component to="/">
                     <img src={logoURL} style={{ width: 75 }} />
                     <Box component="span" style={{ display: 'flex' }}>
